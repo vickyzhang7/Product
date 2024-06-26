@@ -8,6 +8,16 @@ export default function Create() {
   const [title, setTitle] = useState('')
   const [cookingTime, setCookingTime] = useState('')
   const [method, setMethod] = useState('')
+  const [newIngredient, setNewIngredient] = useState('')
+  // const [ingredients, setIngredients] = useState(['']) will have , in default value
+  const [ingredients, setIngredients] = useState([])
+  
+  const AddIngredient = () => {
+    if ( newIngredient && !ingredients.includes(newIngredient)){
+      setIngredients([...ingredients, newIngredient])
+      setNewIngredient('')
+    }
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
     const recipe = { title, cookingTime, method }
@@ -27,6 +37,21 @@ export default function Create() {
           onChange={(e) => setTitle(e.target.value)}>
           </input>
       </label> 
+      <label>
+        <span>Ingredients:</span>
+        <div className='ingredients'>
+          <input 
+          type='text'
+          value={newIngredient}
+          onChange={(e) => setNewIngredient(e.target.value)}/>
+          <button onClick={AddIngredient} className="btn">Add</button>
+        </div> 
+      </label>
+      <p>Current ingredients: {
+          ingredients.map((ingredient, index) => (
+            <em key={index}>{ingredient},</em>
+          ))
+        }</p>
       <label> 
       <span>Method:</span>
         <textarea
@@ -43,8 +68,7 @@ export default function Create() {
         value={cookingTime}
         onChange={(e) => setCookingTime(e.target.value)}/>
       </label>
-        <button className='btn'>Add Recipe</button>
-      
+        <button className='btn'>Submit</button>
       </form>
     </div>
   )
