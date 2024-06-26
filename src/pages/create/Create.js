@@ -68,7 +68,7 @@ export default function Create() {
         value={cookingTime}
         onChange={(e) => setCookingTime(e.target.value)}/>
       </label>
-        <button className='btn'>Submit</button>
+        <button className='btn'> Submit </button>
       </form>
     </div>
   )
