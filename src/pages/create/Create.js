@@ -1,6 +1,8 @@
-import React from 'react'; 
+import React, { useEffect } from 'react'; 
 import {useState, useRef } from 'react'
 import { useFetch } from '../../hooks/useFetch'
+// import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import './Create.css'
 
@@ -14,10 +16,12 @@ export default function Create() {
   // const [ingredients, setIngredients] = useState(['']) will have , in default value
   const [ingredients, setIngredients] = useState([])
   const ingredientInput = useRef(null)
-  const {postData} = useFetch('http://localhost:5001/recipes', 'POST')
+  const navigate = useNavigate()
+  const {postData, data} = useFetch('http://localhost:5001/recipes', 'POST')
   const handleSubmit = (e) => {
     e.preventDefault()
     postData({title, ingredients, method, cookingTime: cookingTime + ' minutes'})
+    // window.location.href = '/' // this will refresh the page, but not recommended
   }
   const AddIngredient = (e) => {
     e.preventDefault()
@@ -28,6 +32,13 @@ export default function Create() {
     setNewIngredient('')
     ingredientInput.current.focus()
   }
+  useEffect(() => {
+    if (data) {
+
+      navigate('/')
+      // history.push('/') history is different from navigate, history is used in class component, navigate is used in functional component
+    }}, [data, navigate])
+  
   
 
   return (
