@@ -1,28 +1,34 @@
 import React from 'react'; 
-import { useState } from 'react'
+import {useState, useRef } from 'react'
+import { useFetch } from '../../hooks/useFetch'
+
 import './Create.css'
 
 
 
 export default function Create() {
   const [title, setTitle] = useState('')
-  const [cookingTime, setCookingTime] = useState('')
   const [method, setMethod] = useState('')
+  const [cookingTime, setCookingTime] = useState('')
   const [newIngredient, setNewIngredient] = useState('')
   // const [ingredients, setIngredients] = useState(['']) will have , in default value
   const [ingredients, setIngredients] = useState([])
-  
-  const AddIngredient = () => {
-    if ( newIngredient && !ingredients.includes(newIngredient)){
-      setIngredients([...ingredients, newIngredient])
-      setNewIngredient('')
-    }
-  }
+  const ingredientInput = useRef(null)
+  const {postData} = useFetch('http://localhost:5001/recipes', 'POST')
   const handleSubmit = (e) => {
     e.preventDefault()
-    const recipe = { title, cookingTime, method }
-    console.log(recipe)
+    postData({title, ingredients, method, cookingTime: cookingTime + ' minutes'})
   }
+  const AddIngredient = (e) => {
+    e.preventDefault()
+    const ing = newIngredient.trim()
+    if (ing && !ingredients.includes(ing)) {
+      setIngredients([...ingredients, ing])
+    }
+    setNewIngredient('')
+    ingredientInput.current.focus()
+  }
+  
 
   return (
     <div className='create'>
@@ -34,8 +40,7 @@ export default function Create() {
           type='text'
           required
           value={title}
-          onChange={(e) => setTitle(e.target.value)}>
-          </input>
+          onChange={(e) => setTitle(e.target.value)}/>
       </label> 
       <label>
         <span>Ingredients:</span>
@@ -43,7 +48,9 @@ export default function Create() {
           <input 
           type='text'
           value={newIngredient}
-          onChange={(e) => setNewIngredient(e.target.value)}/>
+          onChange={(e) => setNewIngredient(e.target.value)}
+          ref={ingredientInput}// this is used to focus on the input field important, if without this, the input field will not be focused
+          />
           <button onClick={AddIngredient} className="btn">Add</button>
         </div> 
       </label>
@@ -63,7 +70,7 @@ export default function Create() {
       <label> 
         <span>Cooking Time:</span>
         <input 
-        type='text'
+        type='number'
         required
         value={cookingTime}
         onChange={(e) => setCookingTime(e.target.value)}/>
