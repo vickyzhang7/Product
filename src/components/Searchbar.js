@@ -15,7 +15,8 @@ export default function Searchbar() {
   return (
     <div className="searchbar">
       <form onSubmit={handleSubmit}>
-        <input 
+        <input
+        id='search' 
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
