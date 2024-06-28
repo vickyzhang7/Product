@@ -7,12 +7,12 @@ export const useFetch = (url) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    const signal = controller.signal; // 获取 AbortController 的信号
+    const signal = controller.signal; // get AbortSignal object
 
     const fetchData = async () => {
       setIsPending(true);
       try {
-        // 将 signal 传递给 fetch，允许我们取消请求
+        // Fetch data with the signal, which can be used to abort the fetch operation
         const res = await fetch(url, { signal });
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
