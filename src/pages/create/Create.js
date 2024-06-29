@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'; 
+import React from 'react'; 
 import {useState, useRef } from 'react'
-import { useFetch } from '../../hooks/useFetch'
+// import { useFetch } from '../../hooks/useFetch'
 // import { useHistory } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
 import './Create.css'
+import { projectFirestore } from '../../firebase/config';
 
 
 
@@ -17,10 +18,17 @@ export default function Create() {
   const [ingredients, setIngredients] = useState([])
   const ingredientInput = useRef(null)
   const navigate = useNavigate()
-  const {postData, data} = useFetch('http://localhost:5001/recipes', 'POST')
+  // const {postData, data} = useFetch('http://localhost:5001/recipes', 'POST')
   const handleSubmit = (e) => {
     e.preventDefault()
-    postData({title, ingredients, method, cookingTime: cookingTime + ' minutes'})
+    const recipe = { title, method, cookingTime: cookingTime + ' minutes', ingredients }
+    try {
+      projectFirestore.collection('recipes').add(recipe)
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+    }
+
     // window.location.href = '/' // this will refresh the page, but not recommended
   }
   const AddIngredient = (e) => {
@@ -32,12 +40,11 @@ export default function Create() {
     setNewIngredient('')
     ingredientInput.current.focus()
   }
-  useEffect(() => {
-    if (data) {
-
-      navigate('/')
-      // history.push('/') history is different from navigate, history is used in class component, navigate is used in functional component
-    }}, [data, navigate])
+  // useEffect(() => {
+  //   if (data) {
+  //     navigate('/')
+  //     // history.push('/') history is different from navigate, history is used in class component, navigate is used in functional component
+  //   }}, [data, navigate])
   
   
 

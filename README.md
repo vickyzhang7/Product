@@ -125,3 +125,22 @@ const res = await fetch(url, { signal });
 </Routes>
 ```
 - **Use `Routes`**: Enhances code readability and performance in React Router v6.
+
+### 4. Fetching Data on Component Mount
+**Old Version**:
+```javascript
+useEffect(() => {
+  fetchData();
+}, []);
+```
+
+**New Version**:
+```javascript
+useEffect(() => {
+  const unsubscribe = projectFirestore.collection('recipes').onSnapshot((snapshot) => {
+    // Update state with new data
+  });
+  return () => unsubscribe();
+}, []);
+```
+- **Use `onSnapshot`**: Fetches initial data and listens for changes, streamlining the data handling process.

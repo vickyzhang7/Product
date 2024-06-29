@@ -12,23 +12,18 @@ export default function Home() {
   const [error, setError] = useState(false)
   useEffect(() => {
     setIsPending(true)
-    projectFirestore.collection('recipes').get().then((snapshot) => {
-      if (snapshot.empty) {
-        console.log('No matching documents.');
-        setIsPending(false)
-      }else{
-        let recipes = []
-        snapshot.forEach(doc => {
-          recipes.push({...doc.data(), id: doc.id})
-        });
-        setData(recipes)
-        setIsPending(false)
-      }
-    }).catch((error) => {
+    const unsub = projectFirestore.collection('recipes').onSnapshot((snap) => {
+      let documents = []
+      snap.forEach(doc => {
+        documents.push({...doc.data(), id: doc.id})
+      })
+      setData(documents)
+      setIsPending(false)
+    }, (error) => {
       setError(error.message)
       setIsPending(false)
     })
-
+    return () => unsub()
   },[])
   return (
     <div className="home">
