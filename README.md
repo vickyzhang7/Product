@@ -144,3 +144,50 @@ useEffect(() => {
 }, []);
 ```
 - **Use `onSnapshot`**: Fetches initial data and listens for changes, streamlining the data handling process.
+
+
+Here’s the updated README format with code improvements:
+
+### 5. Update Function with Modal
+
+**Old Version**:
+```javascript
+const handleEdit = (recipe) => {
+  // Update recipe logic without modal
+};
+```
+
+**New Version (with Modal)**:
+```javascript
+const handleEdit = (recipe) => {
+  setEditing(recipe.id);
+  setUpdatedRecipe({ 
+    title: recipe.title, 
+    cookingTime: recipe.cookingTime.replace(' minutes', ''), 
+    method: recipe.method,
+    ingredients: recipe.ingredients 
+  });
+};
+
+{editing && (
+  <div className={`modal ${mode}`}>
+    <div className="modal-content">
+      <label>
+        <span>Recipe Title:</span>
+        <input 
+          type="text" 
+          value={updatedRecipe.title} 
+          onChange={(e) => setUpdatedRecipe({ ...updatedRecipe, title: e.target.value })} 
+        />
+      </label>
+      {/* Additional form fields for ingredients, method, cooking time */}
+      <button onClick={() => handleUpdate(editing)} className="btn">Save</button>
+      <button onClick={() => setEditing(null)} className="btn">Cancel</button>
+    </div>
+  </div>
+)}
+```
+
+- **Modal Addition**: Added a modal that allows users to edit recipes in an overlay form.
+- **Dynamic Modal Styling**: The modal styling adapts based on the `mode`, supporting both light and dark themes.
+- **Form Content**: The form content is similar to the creation form, allowing users to modify all fields.
