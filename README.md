@@ -1,70 +1,127 @@
-# Getting Started with Create React App
+# React-Firebase Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
+This is a project built using React and Firebase. It consists of a front-end part built with React and a back-end part using JSON Server to provide data API.
 
-## Available Scripts
+## Installation and Running
 
-In the project directory, you can run:
+### Front-End (React Application)
 
-### `npm start`
+1. Install dependencies:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   ```sh
+   npm install
+   ```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Start the front-end development server:
 
-### `npm test`
+   ```sh
+   npm start
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Back-End (JSON Server)
 
-### `npm run build`
+1. Install dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```sh
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Start the JSON Server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```sh
+   json-server --watch db.json --port 5000
+   ```
 
-### `npm run eject`
+### Resolving Port Conflicts
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+If you encounter an error indicating that port `5000` is already in use, follow these steps:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Find the process ID (PID) that is using port `5000`:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```sh
+   lsof -i :5000
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Terminate the process using the port:
 
-## Learn More
+   ```sh
+   kill -9 <PID>
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Restart the JSON Server:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```sh
+   json-server --watch db.json --port 5001
+   ```
 
-### Code Splitting
+## Summary
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Go to data folder
+    ```sh
+   cd data
+   ```
 
-### Analyzing the Bundle Size
+2. Start the back-end server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   ```sh
+   json-server --watch db.json --port 5001
+   ```
 
-### Making a Progressive Web App
+3. Start the front-end development server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   ```sh
+   npm start
+   ```
 
-### Advanced Configuration
+## Code Improvements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 1. React Router Update
+**Old Version (useHistory)**:
+```javascript
+import { useHistory } from 'react-router-dom';
+const history = useHistory();
+history.push(`/search?q=${term}`);
+```
 
-### Deployment
+**New Version (useNavigate)**:
+```javascript
+import { useNavigate } from 'react-router-dom';
+const navigate = useNavigate();
+navigate(`/search?q=${search}`);
+```
+- **Use `useNavigate`**: Simplifies navigation in React Router v6, making code more concise and modern.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 2. useFetch Hook Optimization
+**Old Version**:
+```javascript
+const fetchData = async () => {
+  const res = await fetch(url);
+};
+```
 
-### `npm run build` fails to minify
+**New Version**:
+```javascript
+const controller = new AbortController();
+const signal = controller.signal;
+const res = await fetch(url, { signal });
+```
+- **Use `AbortController`**: Manages async operations effectively, preventing memory leaks and unhandled errors.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 3. Switching from `Switch` to `Routes`
+**Old Version**:
+```javascript
+<Switch>
+  <Route exact path="/">
+    <Home />
+  </Route>
+</Switch>
+```
+
+**New Version**:
+```javascript
+<Routes>
+  <Route path="/" element={<Home />} />
+</Routes>
+```
+- **Use `Routes`**: Enhances code readability and performance in React Router v6.
