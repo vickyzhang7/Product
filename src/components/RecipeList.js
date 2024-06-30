@@ -11,17 +11,16 @@ export default function RecipeList({ recipes }) {
   const [editing, setEditing] = useState(null);
   const [updatedRecipe, setUpdatedRecipe] = useState({ title: '', cookingTime: '', method: '', ingredients: [] });
   const [newIngredient, setNewIngredient] = useState('');
+  const [deleting, setDeleting] = useState(null); // State for tracking which recipe is being deleted
   const ingredientInput = useRef(null);
 
   const handleDelete = (id) => {
-    const confirm = window.confirm('Are you sure you want to delete this recipe?');
-    if (confirm) {
-      projectFirestore.collection('recipes').doc(id).delete().then(() => {
-        console.log('Document successfully deleted!');
-      }).catch((error) => {
-        console.error('Error removing document: ', error);
-      });
-    }
+    projectFirestore.collection('recipes').doc(id).delete().then(() => {
+      console.log('Document successfully deleted!');
+      setDeleting(null);
+    }).catch((error) => {
+      console.error('Error removing document: ', error);
+    });
   };
 
   const handleEdit = (recipe) => {
@@ -67,13 +66,12 @@ export default function RecipeList({ recipes }) {
           <p>{recipe.cookingTime} to make.</p>
           <div>{recipe.method.substring(0, 100)}...</div>
           <Link to={`/recipes/${recipe.id}`}>Cook This</Link>
-          <img src={trashcan} className='delete' onClick={() => handleDelete(recipe.id)} alt='delete' />
+          <img src={trashcan} className='delete' onClick={() => setDeleting(recipe.id)} alt='delete' />
           <button onClick={() => handleEdit(recipe)} className="btn">Edit</button>
         </div>
       ))}
 
       {editing && (
-        //<div className="modal">
         <div className={`modal ${mode}`}>
           <div className="modal-content">
             <label>
@@ -121,6 +119,16 @@ export default function RecipeList({ recipes }) {
             </label>
             <button onClick={() => handleUpdate(editing)} className="btn">Save</button>
             <button onClick={() => setEditing(null)} className="btn">Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {deleting && (
+        <div className={`modal ${mode}`}>
+          <div className="modal-content">
+            <p>Are you sure you want to delete this recipe?</p>
+            <button onClick={() => handleDelete(deleting)} className="btn">Yes, Delete</button>
+            <button onClick={() => setDeleting(null)} className="btn">Cancel</button>
           </div>
         </div>
       )}
