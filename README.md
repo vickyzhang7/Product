@@ -40,61 +40,58 @@ This is a cooking recipe website built using React for the front-end and Firebas
    npm start
    ```
 
-### Back-End (JSON Server)
+### Back-End
 
-1. Install dependencies:
-
-   ```sh
-   npm install
-   ```
-
-2. Start the JSON Server:
+1. Install Firebase:
 
    ```sh
-   json-server --watch db.json --port 5000
+   npm install firebase
    ```
+Here's an interface summary for your cooking application, based on the provided screenshots:
 
-### Resolving Port Conflicts
+## Interface Screenshots
 
-If you encounter an error indicating that port `5000` is already in use, follow these steps:
+1. **Theme Customization**:
+   - Users can customize the theme color of the application, choosing between options like red or dark mode for a personalized interface experience.
 
-1. Find the process ID (PID) that is using port `5000`:
+     <img width="1410" alt="Screenshot 2024-06-29 at 10 45 37 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/9def2773-424b-41ba-9187-097f0f478a73">
+      <img width="1410" alt="Screenshot 2024-06-29 at 10 45 42 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/e3201cdd-704e-4927-b31c-a76de40f7445">
 
-   ```sh
-   lsof -i :5000
-   ```
+2. **View Recipe**:
+   - Clicking "Cook This" expands the recipe details, displaying the full list of ingredients and step-by-step cooking instructions.
 
-2. Terminate the process using the port:
+     <img width="1410" alt="Screenshot 2024-06-29 at 10 45 21 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/39e24541-be47-41ff-bdb3-3865ea5a0893">
+      
+3. **Initial Recipe Search**:
+   - When users first access the application, they can search for recipes. The search results display the recipe name, cooking time, and a brief description. Users can click "Cook This" to view details or "Edit" to modify the recipe.
 
-   ```sh
-   kill -9 <PID>
-   ```
+     <img width="1410" alt="Screenshot 2024-06-29 at 11 19 23 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/b26f74a5-50ba-4a4f-afa2-dc1a248ce6fa">
 
-3. Restart the JSON Server:
 
-   ```sh
-   json-server --watch db.json --port 5001
-   ```
 
-## Summary
+4. **Create a New Recipe**:
+   - Users can create a new recipe by clicking the "Create Recipe" button. They input the recipe title, ingredients, method, and cooking time. Once filled out, clicking "Submit" adds the recipe to the list.
 
-1. Go to data folder
-    ```sh
-   cd data
-   ```
+     <img width="1410" alt="Screenshot 2024-06-29 at 10 47 03 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/2d258733-e457-408a-a519-5b8d2811e8b7">
 
-2. Start the back-end server:
 
-   ```sh
-   json-server --watch db.json --port 5001
-   ```
 
-3. Start the front-end development server:
+5. **Edit Recipe**:
+   - To edit an existing recipe, users click the "Edit" button. This opens a form with the current recipe details, allowing users to update ingredients, methods, or cooking time.
 
-   ```sh
-   npm start
-   ```
+     <img width="1410" alt="Screenshot 2024-06-29 at 11 14 01 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/99deb8a6-412d-4d39-89de-173b02180569">
 
+
+6. **Delete Recipe**:
+   - Users can delete a recipe by clicking the trash icon. A confirmation dialog appears to ensure the user wants to delete the recipe.
+
+     <img width="1410" alt="Screenshot 2024-06-29 at 10 47 48 PM" src="https://github.com/vickyzhang7/React-Firebase/assets/130918669/15e57f6a-9d01-4951-a095-fb7db5aa1229">
+
+
+
+
+
+This summary provides an overview of the core functionalities, focusing on recipe management and interface customization.
 ## Code Improvements
 
 ### 1. React Router Update
