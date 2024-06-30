@@ -1,35 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useFetch } from '../../hooks/useFetch';
+import { projectFirestore } from '../../firebase/config';
 import './Search.css';
 import RecipeList from '../../components/RecipeList';
 
 export default function Search() {
   const location = useLocation();
-  const [searchUrl, setSearchUrl] = useState('');
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const search = urlParams.get('q');
     setSearchTerm(search ? search : '');
-    setSearchUrl(`http://localhost:5001/recipes`);
-  }, [location.search]);
 
-  const { data, isPending, error } = useFetch(searchUrl);
-
-  useEffect(() => {
-    if (data && searchTerm) {
-      const search = searchTerm.toLowerCase();
-      const filtered = data.filter(recipe =>
-        recipe.title.toLowerCase().includes(search)
-      );
-      setFilteredRecipes(filtered);
+    if (search) {
+      projectFirestore.collection('recipes').get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            setError('No recipes found');
+            setIsPending(false);
+          } else {
+            const results = [];
+            snapshot.docs.forEach(doc => {
+              results.push({ id: doc.id, ...doc.data() });
+            });
+            const searchLower = search.toLowerCase();
+            const filtered = results.filter(recipe =>
+              recipe.title.toLowerCase().includes(searchLower)
+            );
+            setFilteredRecipes(filtered);
+            setIsPending(false);
+          }
+        })
+        .catch(err => {
+          setError(err.message);
+          setIsPending(false);
+        });
     } else {
       setFilteredRecipes([]);
+      setIsPending(false);
     }
-  }, [data, searchTerm]);
+  }, [location.search]);
+
+  
 
   return (
     <div>

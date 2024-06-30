@@ -87,6 +87,7 @@
 .modal-content {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .modal input, .modal textarea {
@@ -98,7 +99,7 @@
 }
 
 .modal .btn {
-  margin-top: 10px;
+  display: flex;
 }
 
 /* dark mode for modal */
@@ -117,4 +118,26 @@
   background: #555;
   color: #e4e4e4;
   border: 1px solid #777;
+}
+.btn-group {
+  display: flex;
+  color: #e4e4e4;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 60px; /* Set the desired gap between the buttons */
+}
+
+.ingredients {
+  display: flex;
+  align-items: center;
+}
+
+.ingredients input, .ingredients button {
+  margin: 0;
+  padding: 0;
+  height: 35px;
+}
+
+.current-ingredients {
+  font-size: 0.6em; 
+
 }

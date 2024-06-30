@@ -95,11 +95,13 @@ export default function RecipeList({ recipes }) {
                 <button onClick={addIngredient} className="btn">Add</button>
               </div>
             </label>
-            <p>Current ingredients: {
-              updatedRecipe.ingredients.map((ingredient, index) => (
-                <em key={index}>{ingredient},</em>
-              ))
-            }</p>
+            <p className='current-ingredients'>
+              Current ingredients: {
+                updatedRecipe.ingredients.map((ingredient, index) => (
+                  <em key={index}>{ingredient},</em>
+                ))
+              }
+            </p>
             <label>
               <span>Method:</span>
               <textarea
@@ -117,8 +119,10 @@ export default function RecipeList({ recipes }) {
                 placeholder="Cooking Time"
               />
             </label>
-            <button onClick={() => handleUpdate(editing)} className="btn">Save</button>
-            <button onClick={() => setEditing(null)} className="btn">Cancel</button>
+            <div className='btn-group'>
+            <button onClick={() => handleUpdate(editing)} >Save</button>
+            <button onClick={() => setEditing(null)}>Cancel</button>
+            </div>
           </div>
         </div>
       )}
