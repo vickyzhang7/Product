@@ -1,7 +1,28 @@
 # React-Firebase Project
 
 ## Project Overview
-This is a project built using React and Firebase. It consists of a front-end part built with React and a back-end part using JSON Server to provide data API.
+This is a cooking recipe website built using React for the front-end and Firebase for the back-end. It allows users to create, read, update, and delete recipes easily. The application features a user-friendly interface, search functionality, and the ability to manage ingredients. With Firebase handling data storage and real-time updates, users can seamlessly manage their favorite recipes.
+**Major frameworks and libraries**:
+
+* [![JavaScript][JavaScript-icon]][JavaScript-url]
+* [![React][React-icon]][React-url]
+* [![HTML][HTML-icon]][HTML-url]
+* [![CSS][CSS-icon]][CSS-url]
+* [![Firebase][Firebase-icon]][Firebase-url]
+
+
+[React-url]:https://reactjs.org/
+[React-icon]:https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
+[HTML-url]:https://html.com/
+[HTML-icon]:https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
+[CSS-url]:https://www.css3.com/
+[CSS-icon]:https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+[JavaScript-url]:https://www.javascript.com/
+[JavaScript-icon]:https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[Firebase-url]:https://firebase.google.com/
+[Firebase-icon]:https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Installation and Running
 
